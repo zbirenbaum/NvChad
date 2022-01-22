@@ -17,6 +17,10 @@ return packer.startup(function()
    use "nvim-lua/plenary.nvim"
 
    use {
+      "lewis6991/impatient.nvim",
+   }
+
+   use {
       "wbthomason/packer.nvim",
       event = "VimEnter",
    }
