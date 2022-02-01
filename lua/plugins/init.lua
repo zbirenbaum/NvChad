@@ -7,42 +7,55 @@ end
 
 local use = packer.use
 
-return packer.startup(function()
-   local override_req = require("core.utils").override_req
+local override_req = require("core.utils").override_req
 
    -- this is arranged on the basis of when a plugin starts
 
    -- this is the nvchad core repo containing utilities for some features like theme swticher, no need to lazy load
-   use "Nvchad/extensions"
-   use "nvim-lua/plenary.nvim"
+local plugins = {
+   ["Nvchad/extensions"] = {
+     "Nvchad/extensions"
+   },
 
-   use {
+   ["nvim-lua/plenary.nvim"] = {
+     "nvim-lua/plenary.nvim"
+   },
+
+   ["lewis6991/impatient.nvim"] = {
+      "lewis6991/impatient.nvim",
+   },
+
+   ["nathom/filetype.nvim"] = {
+      "nathom/filetype.nvim"
+   },
+
+   ["wbthomason/packer.nvim"] = {
       "wbthomason/packer.nvim",
       event = "VimEnter",
-   }
+   },
 
-   use {
+   ["NvChad/nvim-base16.lua"] = {
       "NvChad/nvim-base16.lua",
       after = "packer.nvim",
       config = function()
          require("colors").init()
       end,
-   }
+   },
 
-   use {
+   ["kyazdani42/nvim-web-devicons"] = {
       "kyazdani42/nvim-web-devicons",
       after = "nvim-base16.lua",
       config = override_req("nvim_web_devicons", "plugins.configs.icons", "setup"),
-   }
+   },
 
-   use {
+   ["feline-nvim/feline.nvim"] = {
       "feline-nvim/feline.nvim",
       disable = not plugin_settings.status.feline,
       after = "nvim-web-devicons",
       config = override_req("feline", "plugins.configs.statusline", "setup"),
-   }
+   },
 
-   use {
+   ["akinsho/bufferline.nvim"] = {
       "akinsho/bufferline.nvim",
       disable = not plugin_settings.status.bufferline,
       after = "nvim-web-devicons",
@@ -50,30 +63,30 @@ return packer.startup(function()
       setup = function()
          require("core.mappings").bufferline()
       end,
-   }
+   },
 
-   use {
+   ["lukas-reineke/indent-blankline.nvim"] = {
       "lukas-reineke/indent-blankline.nvim",
       disable = not plugin_settings.status.blankline,
       event = "BufRead",
       config = override_req("indent_blankline", "plugins.configs.others", "blankline"),
-   }
+   },
 
-   use {
+   ["norcalli/nvim-colorizer.lua"] = {
       "norcalli/nvim-colorizer.lua",
       disable = not plugin_settings.status.colorizer,
       event = "BufRead",
       config = override_req("nvim_colorizer", "plugins.configs.others", "colorizer"),
-   }
+   },
 
-   use {
+   ["nvim-treesitter/nvim-treesitter"] = {
       "nvim-treesitter/nvim-treesitter",
       event = "BufRead",
       config = override_req("nvim_treesitter", "plugins.configs.treesitter", "setup"),
-   }
+   },
 
    -- git stuff
-   use {
+   ["lewis6991/gitsigns.nvim"] = {
       "lewis6991/gitsigns.nvim",
       disable = not plugin_settings.status.gitsigns,
       opt = true,
@@ -81,34 +94,34 @@ return packer.startup(function()
       setup = function()
          require("core.utils").packer_lazy_load "gitsigns.nvim"
       end,
-   }
+   },
 
-   use {
+   ["andymass/vim-matchup"] = {
       "andymass/vim-matchup",
       disable = not plugin_settings.status.vim_matchup,
       opt = true,
       setup = function()
          require("core.utils").packer_lazy_load "vim-matchup"
       end,
-   }
+   },
 
-   use {
+   ["max397574/better-escape.nvim"] = {
       "max397574/better-escape.nvim",
       disable = not plugin_settings.status.better_escape,
       event = "InsertEnter",
       config = override_req("better_escape", "plugins.configs.others", "better_escape"),
-   }
+   },
 
-   use {
+   ["glepnir/dashboard-nvim"] = {
       "glepnir/dashboard-nvim",
       disable = not plugin_settings.status.dashboard,
       config = override_req("dashboard", "plugins.configs.dashboard"),
       setup = function()
          require("core.mappings").dashboard()
       end,
-   }
+   },
 
-   use {
+   ["numToStr/Comment.nvim"] = {
       "numToStr/Comment.nvim",
       disable = not plugin_settings.status.comment,
       module = "Comment",
@@ -116,10 +129,10 @@ return packer.startup(function()
       setup = function()
          require("core.mappings").comment()
       end,
-   }
+   },
 
    -- file managing , picker etc
-   use {
+   ["kyazdani42/nvim-tree.lua"] = {
       "kyazdani42/nvim-tree.lua",
       disable = not plugin_settings.status.nvimtree,
 
@@ -131,9 +144,9 @@ return packer.startup(function()
       setup = function()
          require("core.mappings").nvimtree()
       end,
-   }
+   },
 
-   use {
+   ["nvim-telescope/telescope.nvim"] = {
       "nvim-telescope/telescope.nvim",
       module = "telescope",
       cmd = "Telescope",
@@ -141,7 +154,16 @@ return packer.startup(function()
       setup = function()
          require("core.mappings").telescope()
       end,
-   }
+   },
    -- load user defined plugins
-   require("core.customPlugins").run(use)
+}
+
+local custom_table = require("custom.plugins_table")
+return packer.startup(function()
+   for k,v in pairs(custom_table) do
+      plugins[k] = v
+   end
+   for _,v in pairs(plugins) do
+      use(v)
+   end
 end)
