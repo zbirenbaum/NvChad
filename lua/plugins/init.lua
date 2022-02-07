@@ -21,10 +21,6 @@ local plugins = {
       "lewis6991/impatient.nvim",
    },
 
-   ["nathom/filetype.nvim"] = {
-      "nathom/filetype.nvim"
-   },
-
    ["wbthomason/packer.nvim"] = {
       "wbthomason/packer.nvim",
       event = "VimEnter",
@@ -64,7 +60,7 @@ local plugins = {
    ["lukas-reineke/indent-blankline.nvim"] = {
       "lukas-reineke/indent-blankline.nvim",
       disable = not plugin_settings.status.blankline,
-      event = "BufRead",
+      event = "BufReadPost",
       config = override_req("indent_blankline", "plugins.configs.others", "blankline"),
    },
 
@@ -152,7 +148,6 @@ local plugins = {
       end,
    },
 }
-
 --label plugins for operational assistance
 plugins = require("core.utils").label_plugins(plugins)
 --remove plugins specified in chadrc
@@ -161,7 +156,5 @@ plugins = require("core.utils").remove_default_plugins(plugins)
 plugins = require("core.utils").add_user_plugins(plugins)
 
 return packer.startup(function(use)
-   for _, v in pairs(plugins) do
-      use(v)
-   end
+   for _, v in pairs(plugins) do use(v) end
 end)
