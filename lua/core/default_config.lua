@@ -156,17 +156,17 @@ M.mappings = {
       -- multiple mappings can be given for esc_termmode, esc_hide_termmode
 
       -- get out of terminal mode
-      esc_termmode = { "jk" },
-
-      -- get out of terminal mode and hide it
-      esc_hide_termmode = { "JK" },
-      -- show & recover hidden terminal buffers in a telescope picker
-      pick_term = "<leader>W",
-
-      -- spawn terminals
-      new_horizontal = "<leader>h",
-      new_vertical = "<leader>v",
-      new_window = "<leader>w",
+      -- esc_termmode = { "jk" },
+      --
+      -- -- get out of terminal mode and hide it
+      -- esc_hide_termmode = { "JK" },
+      -- -- show & recover hidden terminal buffers in a telescope picker
+      -- pick_term = "<leader>W",
+      --
+      -- -- spawn terminals
+      -- new_horizontal = "<leader>h",
+      -- new_vertical = "<leader>v",
+      -- new_window = "<leader>w",
    },
 }
 
