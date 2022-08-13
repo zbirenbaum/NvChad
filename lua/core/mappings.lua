@@ -79,24 +79,7 @@ M.bufferline = {
 }
 
 M.comment = {
-
    -- toggle comment in both modes
-   n = {
-      ["<leader>/"] = {
-         function()
-            require("Comment.api").toggle_current_linewise()
-         end,
-
-         "蘒  toggle comment",
-      },
-   },
-
-   v = {
-      ["<leader>/"] = {
-         "<ESC><cmd>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<CR>",
-         "蘒  toggle comment",
-      },
-   },
 }
 
 M.lspconfig = {
