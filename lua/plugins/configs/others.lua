@@ -269,6 +269,7 @@ M.gitsigns = function()
    end
 
    local options = {
+      _extmark_signs = true,
       signs = {
          add = { hl = "DiffAdd", text = "│", numhl = "GitSignsAddNr" },
          change = { hl = "DiffChange", text = "│", numhl = "GitSignsChangeNr" },
